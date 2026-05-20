@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CalmCampus Prototype</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="phone-shell" aria-label="CalmCampus mobile prototype">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">CalmCampus</p>
+        <h1 id="screenTitle">Today</h1>
+      </div>
+      <button class="sos-button" id="sosButton" type="button" aria-label="Open urgent support">SOS</button>
+    </header>
+
+    <section class="screen active" id="home" aria-labelledby="screenTitle">
+      <div class="hero-panel">
+        <p class="small-label">Daily check-in</p>
+        <h2>How are you feeling right now?</h2>
+        <p class="muted">Choose a mood and get a gentle next step.</p>
+        <button class="primary" data-go="checkin" type="button">Start check-in</button>
+      </div>
+
+      <div class="today-summary" aria-label="Today summary">
+        <article>
+          <strong id="todayMood">No check-in yet</strong>
+          <span>today's mood</span>
+        </article>
+        <article>
+          <strong id="todayActions">0</strong>
+          <span>self-care actions</span>
+        </article>
+      </div>
+
+      <div class="quick-grid" aria-label="Main actions">
+        <button class="action-card" data-go="care" type="button">
+          <span class="icon">+</span>
+          <strong>Self-care</strong>
+          <span>Short exercises</span>
+        </button>
+        <button class="action-card" data-go="booking" type="button">
+          <span class="icon">#</span>
+          <strong>Book counselor</strong>
+          <span>Private appointment</span>
+        </button>
+        <button class="action-card" data-go="chat" type="button">
+          <span class="icon">@</span>
+          <strong>Anonymous chat</strong>
+          <span>Peer support</span>
+        </button>
+        <button class="action-card" data-go="progress" type="button">
+          <span class="icon">%</span>
+          <strong>Progress</strong>
+          <span>Weekly pattern</span>
+        </button>
+      </div>
+
+      <article class="notice">
+        <strong>Privacy note</strong>
+        <p>Your entries are saved only in this browser for testing. A real version should use secure storage and clear consent.</p>
+      </article>
+
+      <article class="next-card" id="nextAppointment" hidden>
+        <strong>Next appointment</strong>
+        <p id="nextAppointmentText"></p>
+      </article>
+    </section>
+
+    <section class="screen" id="checkin">
+      <h2>Mood check-in</h2>
+      <p class="muted">Tap the mood closest to how you feel.</p>
+      <div class="mood-list" role="list" aria-label="Mood choices">
+        <button class="mood-card" data-mood="Calm" type="button">Calm<span>steady and okay</span></button>
+        <button class="mood-card" data-mood="Stressed" type="button">Stressed<span>too much to handle</span></button>
+        <button class="mood-card" data-mood="Anxious" type="button">Anxious<span>worried or tense</span></button>
+        <button class="mood-card" data-mood="Low" type="button">Low<span>sad or tired</span></button>
+        <button class="mood-card" data-mood="Overwhelmed" type="button">Overwhelmed<span>need help now</span></button>
+      </div>
+
+      <p class="small-label">What may be contributing?</p>
+      <div class="chip-row" aria-label="Mood reasons">
+        <button class="chip" type="button">CATs/exams</button>
+        <button class="chip" type="button">Money</button>
+        <button class="chip" type="button">Relationships</button>
+        <button class="chip" type="button">Loneliness</button>
+        <button class="chip" type="button">Group work</button>
+      </div>
+
+      <label class="field-label" for="checkinNote">Private note</label>
+      <textarea id="checkinNote" rows="3" placeholder="Optional: write what is on your mind..."></textarea>
+
+      <button class="primary" id="saveMood" type="button">Save check-in</button>
+
+      <div class="result-card" id="moodResult" hidden>
+        <strong id="moodHeadline">Check-in saved</strong>
+        <p id="moodAdvice">Try one short self-care action now.</p>
+        <button class="primary" data-go="care" type="button">Open self-care</button>
+      </div>
+    </section>
+
+    <section class="screen" id="care">
+      <h2>Self-care toolkit</h2>
+      <p class="muted">Small actions for moments when everything feels loud.</p>
+
+      <div class="tool-card" data-care="3-minute breathing">
+        <div>
+          <strong>3-minute breathing</strong>
+          <p>Breathe in for 4, hold for 4, out for 6.</p>
+        </div>
+        <button class="secondary timer-start" type="button">Start</button>
+      </div>
+
+      <div class="tool-card" data-care="Grounding exercise">
+        <div>
+          <strong>Grounding exercise</strong>
+          <p>Name 5 things you see, 4 you feel, 3 you hear.</p>
+        </div>
+        <button class="secondary complete-action" type="button">Done</button>
+      </div>
+
+      <div class="tool-card" data-care="Study stress reset">
+        <div>
+          <strong>Study stress reset</strong>
+          <p>Choose one task, set 20 minutes, pause notifications.</p>
+        </div>
+        <button class="secondary complete-action" type="button">Done</button>
+      </div>
+
+      <div class="timer-box" id="timerBox" hidden>
+        <span id="timerText">Breathe slowly. You are safe in this moment.</span>
+      </div>
+
+      <article class="activity-card">
+        <strong>Completed today</strong>
+        <ul id="careLog"></ul>
+      </article>
+    </section>
+
+    <section class="screen" id="booking">
+      <h2>Book counselor</h2>
+      <p class="muted">Choose a private appointment slot.</p>
+
+      <article class="counselor-card">
+        <div>
+          <strong>Ms. Njeri W.</strong>
+          <p>Student wellness counselor</p>
+        </div>
+        <span class="availability">Available</span>
+      </article>
+
+      <p class="small-label">Available times</p>
+      <div class="slot-grid" aria-label="Appointment times">
+        <button class="slot" type="button">Tue 10:00</button>
+        <button class="slot" type="button">Tue 14:30</button>
+        <button class="slot" type="button">Wed 09:00</button>
+        <button class="slot" type="button">Fri 11:30</button>
+      </div>
+
+      <button class="primary" id="bookButton" type="button">Confirm booking</button>
+      <div class="result-card" id="bookingResult" hidden>
+        <strong>Appointment confirmed</strong>
+        <p id="bookingText">Your appointment has been saved.</p>
+      </div>
+
+      <article class="activity-card">
+        <strong>Your appointments</strong>
+        <ul id="appointmentList"></ul>
+      </article>
+    </section>
+
+    <section class="screen" id="chat">
+      <h2>Anonymous support</h2>
+      <p class="muted">Talk with a trained peer supporter. Do not share names, passwords, or private documents.</p>
+
+      <div class="chat-window" id="chatWindow" aria-label="Anonymous chat messages"></div>
+
+      <div class="chat-compose">
+        <input id="chatInput" type="text" aria-label="Message" placeholder="Type anonymously...">
+        <button id="sendChat" class="secondary" type="button">Send</button>
+      </div>
+
+      <button class="text-button" id="reportChat" type="button">Report unsafe message</button>
+      <div class="result-card" id="chatResult" hidden>
+        <strong>Message sent</strong>
+        <p>A simulated peer supporter replied.</p>
+      </div>
+    </section>
+
+    <section class="screen" id="progress">
+      <h2>Weekly progress</h2>
+      <p class="muted">A simple view of check-ins and self-care actions.</p>
+
+      <div class="bars" id="moodBars" aria-label="Mood trend chart"></div>
+      <div class="days">
+        <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+      </div>
+
+      <div class="stats-grid">
+        <article><strong id="checkinCount">0</strong><span>check-ins</span></article>
+        <article><strong id="careCount">0</strong><span>self-care actions</span></article>
+        <article><strong id="bookingCount">0</strong><span>bookings</span></article>
+      </div>
+
+      <article class="activity-card">
+        <strong>Recent check-ins</strong>
+        <ul id="moodHistory"></ul>
+      </article>
+
+      <button class="text-button reset-button" id="resetData" type="button">Reset test data</button>
+    </section>
+
+    <section class="screen" id="sos">
+      <h2>Urgent support</h2>
+      <p class="muted">If you may harm yourself or someone else, seek immediate help from campus security, emergency services, or a trusted person nearby.</p>
+      <div class="sos-panel">
+        <strong>Do this now</strong>
+        <ol>
+          <li>Move to a safer place or stay near people.</li>
+          <li>Call campus emergency support or local emergency services.</li>
+          <li>Message a trusted friend, roommate, lecturer, or counselor.</li>
+        </ol>
+      </div>
+      <button class="primary" data-go="booking" type="button">Book counseling</button>
+      <button class="secondary" data-go="chat" type="button">Open support chat</button>
+    </section>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="nav-item active" data-go="home" type="button">Home</button>
+      <button class="nav-item" data-go="care" type="button">Care</button>
+      <button class="nav-item" data-go="booking" type="button">Book</button>
+      <button class="nav-item" data-go="chat" type="button">Chat</button>
+      <button class="nav-item" data-go="progress" type="button">Progress</button>
+    </nav>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
